@@ -30,8 +30,12 @@ This document summarizes the Weather & Location Dashboard repository to help you
 - **`styles.css`** provides the card layout, buttons, and placeholder styling for the dashboard.
 
 ## Tests (`test/server.test.js`)
-- Uses Node's built-in test runner to validate helper utilities (`normalizeNumber`, `haversineDistanceKm`, `dedupePlaces`, `getCountryFromComponents`).
-- External API calls are not exercised; tests are safe to run offline.
+- Uses Node's built-in test runner to validate helper utilities; external API calls are not exercised, so tests are safe offline.
+- Covered cases:
+  - **`normalizeNumber`** — converts numeric strings/values to numbers and returns `null` for invalid inputs (e.g., non-numeric strings or `undefined`).
+  - **`haversineDistanceKm`** — calculates distance between two coordinates (New York → London expected around 5,500–5,600 km).
+  - **`dedupePlaces`** — removes near-duplicate place entries and excludes the origin point, leaving only distinct nearby results.
+  - **`getCountryFromComponents`** — prefers `long_name`, falls back to `short_name`, and returns `Unknown` when no country component exists.
 
 ## How to run locally
 1. `export GOOGLE_MAPS_API_KEY=<your_api_key>` (required for Google Places lookups).
