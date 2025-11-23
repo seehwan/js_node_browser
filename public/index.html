@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather & Location Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="branding">
+        <span class="emoji">⛅</span>
+        <div>
+          <h1>Weather & Location Dashboard</h1>
+          <p class="subtitle">Search a city, pick a match, and view current & daily forecast.</p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card search-card">
+        <form id="search-form" class="search-form">
+          <label for="search-input">Search location</label>
+          <div class="input-row">
+            <input
+              id="search-input"
+              name="query"
+              type="text"
+              placeholder="e.g. Seoul, London, New York"
+              autocomplete="off"
+              required
+            />
+            <button type="submit">Search</button>
+          </div>
+          <p class="help-text">Powered by Open-Meteo Geocoding & Forecast APIs.</p>
+        </form>
+
+        <div id="results" class="results"></div>
+      </section>
+
+      <section class="card">
+        <h2>Weather details</h2>
+        <div id="weather" class="weather">
+          <p class="placeholder">Search for a location to see the forecast.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Demo: Node.js server proxies Open-Meteo APIs to the browser and serves this static page.
+      </p>
+    </footer>
+
+    <script src="/main.js" type="module"></script>
+  </body>
+</html>
