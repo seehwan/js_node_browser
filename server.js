@@ -145,9 +145,11 @@ async function loadNearbyCities(latitude, longitude) {
 
     const data = await fetchJson(reverseUrl);
     const rawPlaces = data.results || [];
+    const primaryCountry = rawPlaces[0]?.country;
 
     const filtered = dedupePlaces(rawPlaces, { latitude, longitude })
       .filter((place) => (place.population ?? 0) >= 50000)
+      .filter((place) => (primaryCountry ? place.country === primaryCountry : true))
       .slice(0, 3);
 
     const neighbors = await Promise.all(

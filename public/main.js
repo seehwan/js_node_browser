@@ -82,13 +82,10 @@ function renderWeather(data) {
       <h3>Daily forecast</h3>
       ${dailyRows}
     </div>
-<<<<<<< ours
-=======
     <div class="nearby">
       <h3>Nearby popular cities</h3>
       ${nearbyList}
     </div>
->>>>>>> theirs
   `;
 }
 
