@@ -160,6 +160,13 @@ h1 {
   color: var(--muted);
 }
 
+<<<<<<< ours
+=======
+.muted {
+  color: var(--muted);
+}
+
+>>>>>>> theirs
 .value {
   margin: 0;
   font-size: 20px;
@@ -178,6 +185,28 @@ h1 {
   border: 1px solid var(--border);
   margin-bottom: 8px;
   background: rgba(255, 255, 255, 0.02);
+}
+
+.nearby {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.nearby-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.nearby-meta {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
 }
 
 footer {

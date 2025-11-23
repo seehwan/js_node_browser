@@ -107,16 +107,80 @@ async function handleWeather(req, res, query) {
       precipitationSum: data.daily.precipitation_sum?.[idx] ?? null,
     }));
 
+    const nearby = await loadNearbyCities(latitude, longitude);
+
     return sendJson(res, 200, {
       latitude,
       longitude,
       timezone: data.timezone,
       current,
       daily,
+      nearby,
     });
   } catch (error) {
     console.error('Weather error', error);
     return sendJson(res, 502, { error: 'Failed to load weather data' });
+  }
+}
+
+function dedupePlaces(list, { latitude, longitude }) {
+  const seen = new Set();
+  return list.filter((item) => {
+    const key = `${item.latitude.toFixed(2)},${item.longitude.toFixed(2)}`;
+    const isSameLocation =
+      Math.abs(item.latitude - latitude) < 0.01 && Math.abs(item.longitude - longitude) < 0.01;
+    if (isSameLocation || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+async function loadNearbyCities(latitude, longitude) {
+  try {
+    const reverseUrl = new URL('https://geocoding-api.open-meteo.com/v1/reverse');
+    reverseUrl.searchParams.set('latitude', latitude);
+    reverseUrl.searchParams.set('longitude', longitude);
+    reverseUrl.searchParams.set('count', '6');
+    reverseUrl.searchParams.set('language', 'en');
+
+    const data = await fetchJson(reverseUrl);
+    const rawPlaces = data.results || [];
+
+    const filtered = dedupePlaces(rawPlaces, { latitude, longitude })
+      .filter((place) => (place.population ?? 0) >= 50000)
+      .slice(0, 3);
+
+    const neighbors = await Promise.all(
+      filtered.map(async (place) => {
+        const neighborWeatherUrl = new URL('https://api.open-meteo.com/v1/forecast');
+        neighborWeatherUrl.searchParams.set('latitude', place.latitude);
+        neighborWeatherUrl.searchParams.set('longitude', place.longitude);
+        neighborWeatherUrl.searchParams.set('timezone', 'auto');
+        neighborWeatherUrl.searchParams.set('current_weather', 'true');
+
+        const neighborData = await fetchJson(neighborWeatherUrl);
+
+        return {
+          name: place.name,
+          country: place.country,
+          latitude: place.latitude,
+          longitude: place.longitude,
+          timezone: place.timezone,
+          current: neighborData.current_weather
+            ? {
+                temperature: neighborData.current_weather.temperature,
+                windspeed: neighborData.current_weather.windspeed,
+                time: neighborData.current_weather.time,
+              }
+            : null,
+        };
+      })
+    );
+
+    return neighbors;
+  } catch (error) {
+    console.error('Nearby lookup failed', error);
+    return [];
   }
 }
 

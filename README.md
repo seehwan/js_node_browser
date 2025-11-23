@@ -2,8 +2,8 @@
 
 A minimal example of a Node.js API server plus browser UI. The Node server proxies the
 [Open-Meteo](https://open-meteo.com) Geocoding and Forecast APIs and serves a static
-frontend that lets you search for locations and view current conditions plus daily
-forecast.
+frontend that lets you search for locations, view current conditions plus daily forecast,
+and see nearby popular cities with their current weather.
 
 ## Running locally
 
@@ -21,7 +21,8 @@ forecast.
 - `GET /api/search?query=<text>` — returns up to 5 matching locations from the Open-Meteo
   geocoding service.
 - `GET /api/weather?lat=<latitude>&lon=<longitude>` — returns current weather and daily
-  forecast data for the provided coordinates.
+  forecast data for the provided coordinates, plus nearby popular cities with their
+  current conditions.
 
 Both routes keep API keys out of the browser by letting the Node server call the external
 APIs.

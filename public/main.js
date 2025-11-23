@@ -24,6 +24,29 @@ function renderResults(list) {
   resultsEl.appendChild(fragment);
 }
 
+function renderNearby(nearby) {
+  if (!nearby?.length) {
+    return '<p class="placeholder">No nearby cities with popular population found.</p>';
+  }
+
+  return nearby
+    .map((place) => {
+      const currentTemp = place.current ? `${place.current.temperature} °C` : 'N/A';
+      const time = place.current ? new Date(place.current.time).toLocaleTimeString() : '—';
+      return `<div class="nearby-card">
+        <div>
+          <p class="value">${place.name}</p>
+          <p class="label">${place.country}</p>
+        </div>
+        <div class="nearby-meta">
+          <span>${currentTemp}</span>
+          <span class="muted">${time}</span>
+        </div>
+      </div>`;
+    })
+    .join('');
+}
+
 function renderWeather(data) {
   if (!data.current) {
     weatherEl.innerHTML = '<p class="placeholder">Weather data unavailable for this location.</p>';
@@ -37,6 +60,8 @@ function renderWeather(data) {
         <div>${day.precipitationSum?.toFixed?.(1) ?? '-'} mm</div>
       </div>`)
     .join('');
+
+  const nearbyList = renderNearby(data.nearby);
 
   weatherEl.innerHTML = `
     <div class="current">
@@ -57,6 +82,13 @@ function renderWeather(data) {
       <h3>Daily forecast</h3>
       ${dailyRows}
     </div>
+<<<<<<< ours
+=======
+    <div class="nearby">
+      <h3>Nearby popular cities</h3>
+      ${nearbyList}
+    </div>
+>>>>>>> theirs
   `;
 }
 
