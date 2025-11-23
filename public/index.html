@@ -32,16 +32,42 @@
             />
             <button type="submit">Search</button>
           </div>
-          <p class="help-text">Powered by Open-Meteo Geocoding & Forecast APIs.</p>
+          <p class="help-text">City search uses the map service; pick a match to load weather and nearby tools.</p>
         </form>
 
         <div id="results" class="results"></div>
+
+        <div class="country-cities" id="country-cities">
+          <h3>Same-country cities</h3>
+          <div id="country-cities-content" class="results">
+            <p class="placeholder">Select a city to see more places from the same country.</p>
+          </div>
+        </div>
       </section>
 
       <section class="card">
         <h2>Weather details</h2>
         <div id="weather" class="weather">
           <p class="placeholder">Search for a location to see the forecast.</p>
+        </div>
+        <div id="nearby-search" class="nearby-search hidden">
+          <h3>Search same-country nearby cities</h3>
+          <p id="nearby-help" class="help-text"></p>
+          <form id="nearby-search-form" class="search-form compact">
+            <label class="sr-only" for="nearby-search-input">Search nearby city</label>
+            <div class="input-row">
+              <input
+                id="nearby-search-input"
+                name="query"
+                type="text"
+                placeholder="Enter a city name"
+                autocomplete="off"
+                required
+              />
+              <button type="submit">Find</button>
+            </div>
+          </form>
+          <div id="nearby-search-results" class="results"></div>
         </div>
       </section>
     </main>

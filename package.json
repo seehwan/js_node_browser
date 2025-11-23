@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"No automated tests\""
+    "test": "NODE_ENV=test node --test"
   },
   "keywords": ["node", "api", "browser", "weather"],
   "author": "",
